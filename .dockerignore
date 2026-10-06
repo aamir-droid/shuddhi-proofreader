@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+shuddhi_*/
+.git/
+.gitignore
+deploy_hf.py
+*.md
+!README.md

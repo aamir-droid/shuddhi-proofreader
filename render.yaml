@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: shuddhi-proofreader
+    runtime: docker
+    plan: free
+    envVars:
+      - key: SHUDDHI_MODEL
+        value: claude-haiku-4-5        # cheapest model for the AI pass; change if you like
+      - key: ANTHROPIC_API_KEY
+        sync: false                    # set this in the Render dashboard to enable AI analysis

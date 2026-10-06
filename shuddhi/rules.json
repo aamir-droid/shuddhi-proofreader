@@ -1,0 +1,40 @@
+{
+  "_comment": "Curated standardization / common-error rules. Applied offline (no AI needed). word = exact token or phrase to flag; suggestion = standard form. type: spelling|grammar|context|standardization. priority: High|Medium|Low. categories: list; 'all' applies everywhere, else only when the user's category matches. match: 'word' (whole word, default) or 'phrase' (substring).",
+  "hi": [
+    {"word": "बुद्धिमता", "suggestion": "बुद्धिमत्ता", "type": "spelling", "priority": "High", "note": "तत्सम शब्द — दोहरा 'त्त' आवश्यक (बुद्धि + मत्ता)।", "categories": ["all"]},
+    {"word": "जागरुकता", "suggestion": "जागरूकता", "type": "spelling", "priority": "High", "note": "'रू' में दीर्घ ऊ की मात्रा।", "categories": ["all"]},
+    {"word": "जागरुक", "suggestion": "जागरूक", "type": "spelling", "priority": "High", "note": "'रू' में दीर्घ ऊ की मात्रा।", "categories": ["all"]},
+    {"word": "प्रेसित", "suggestion": "प्रेषित", "type": "spelling", "priority": "High", "note": "'स' के स्थान पर 'ष'।", "categories": ["all"]},
+    {"word": "गतिबिधि", "suggestion": "गतिविधि", "type": "spelling", "priority": "High", "note": "'ब' के स्थान पर 'व' — गति + विधि।", "categories": ["all"]},
+    {"word": "गतिबिधियाँ", "suggestion": "गतिविधियाँ", "type": "spelling", "priority": "High", "note": "'ब' के स्थान पर 'व'।", "categories": ["all"]},
+    {"word": "प्रतिक्रया", "suggestion": "प्रतिक्रिया", "type": "spelling", "priority": "High", "note": "'क्रि' में इ की मात्रा छूट गई।", "categories": ["all"]},
+    {"word": "कारवाई", "suggestion": "कार्रवाई", "type": "standardization", "priority": "Medium", "note": "मानक/शासकीय रूप 'कार्रवाई'।", "categories": ["all"]},
+    {"word": "पुन:", "suggestion": "पुनः", "type": "standardization", "priority": "Medium", "note": "कोलन ( : ) नहीं, विसर्ग ( ः ) का प्रयोग।", "match": "phrase", "categories": ["all"]},
+    {"word": "संवादबेहतर", "suggestion": "संवाद बेहतर", "type": "spelling", "priority": "High", "note": "दो शब्द जुड़ गए हैं — बीच में स्पेस आवश्यक।", "categories": ["all"]},
+    {"word": "बनाएं", "suggestion": "बनाएँ", "type": "standardization", "priority": "Low", "note": "अनुनासिक 'एँ' के लिए चंद्रबिंदु मानक है।", "categories": ["all"]},
+    {"word": "बताएं", "suggestion": "बताएँ", "type": "standardization", "priority": "Low", "note": "अनुनासिक 'एँ' के लिए चंद्रबिंदु मानक है।", "categories": ["all"]},
+    {"word": "पाएं", "suggestion": "पाएँ", "type": "standardization", "priority": "Low", "note": "अनुनासिक 'एँ' के लिए चंद्रबिंदु मानक है।", "categories": ["all"]},
+    {"word": "आ‍र्शीवाद", "suggestion": "आशीर्वाद", "type": "spelling", "priority": "High", "note": "सही क्रम: आ-शी-र्-वाद।", "categories": ["all"]},
+    {"word": "आर्शीवाद", "suggestion": "आशीर्वाद", "type": "spelling", "priority": "High", "note": "सही क्रम: आ-शी-र्-वाद।", "categories": ["all"]},
+    {"word": "परिक्षा", "suggestion": "परीक्षा", "type": "spelling", "priority": "High", "note": "'री' में दीर्घ ई की मात्रा।", "categories": ["all", "education"]},
+    {"word": "प्रतिशत", "suggestion": "प्रतिशत", "type": "spelling", "priority": "Low", "note": "सही है — संदर्भ जाँच हेतु।", "categories": []},
+    {"word": "अधिकारि", "suggestion": "अधिकारी", "type": "spelling", "priority": "High", "note": "अंत में दीर्घ 'ी'।", "categories": ["all"]},
+    {"word": "कृप्या", "suggestion": "कृपया", "type": "spelling", "priority": "Medium", "note": "'कृपया' शुद्ध रूप है।", "categories": ["all"]},
+    {"word": "सम्पूर्ण", "suggestion": "संपूर्ण", "type": "standardization", "priority": "Low", "note": "मानक रूप में अनुस्वार 'संपूर्ण' प्रायः पसंद किया जाता है (दोनों प्रचलित)।", "categories": ["all"]},
+    {"word": "कार्यक्षेत्र", "suggestion": "कार्यक्षेत्र", "type": "context", "priority": "Low", "note": "सही — संदर्भ।", "categories": []}
+  ],
+  "gu": [
+    {"word": "જાગૃતિ", "suggestion": "જાગૃતિ", "type": "context", "priority": "Low", "note": "સાચું — સંદર્ભ ચકાસણી.", "categories": []},
+    {"word": "પ્રતિક્રયા", "suggestion": "પ્રતિક્રિયા", "type": "spelling", "priority": "High", "note": "'ક્રિ' માં ઇ ની માત્રા.", "categories": ["all"]},
+    {"word": "પરિક્ષા", "suggestion": "પરીક્ષા", "type": "spelling", "priority": "High", "note": "'રી' માં દીર્ઘ ઈ ની માત્રા.", "categories": ["all", "education"]},
+    {"word": "કાર્યવાહિ", "suggestion": "કાર્યવાહી", "type": "spelling", "priority": "Medium", "note": "અંતે દીર્ઘ 'ી'.", "categories": ["all"]}
+  ],
+  "en": [
+    {"word": "Intellligence", "suggestion": "Intelligence", "type": "spelling", "priority": "High", "note": "Three 'l' instead of two.", "categories": ["all"]},
+    {"word": "seperate", "suggestion": "separate", "type": "spelling", "priority": "High", "note": "Common misspelling.", "categories": ["all"]},
+    {"word": "recieve", "suggestion": "receive", "type": "spelling", "priority": "High", "note": "i before e except after c.", "categories": ["all"]},
+    {"word": "occured", "suggestion": "occurred", "type": "spelling", "priority": "High", "note": "Double 'r'.", "categories": ["all"]},
+    {"word": "goverment", "suggestion": "government", "type": "spelling", "priority": "High", "note": "Missing 'n'.", "categories": ["all", "official"]},
+    {"word": "definately", "suggestion": "definitely", "type": "spelling", "priority": "High", "note": "Common misspelling.", "categories": ["all"]}
+  ]
+}
