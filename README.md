@@ -25,12 +25,13 @@ Languages: **Hindi, Gujarati, English** (auto-detected per segment).
 - **Context / level** — word choice appropriate to the stated category.
 - **Standardization** — preferred official/NCERT-aligned forms.
 
-## How the engine works (hybrid)
-1. **Curated rules** (offline, precise) — a growing list of standard-spelling corrections in `shuddhi/rules.json`.
-2. **Dictionary spellcheck** — English unknown-word detection.
-3. **AI deep pass** — Claude reviews each segment for grammar, sentence, and context issues. Enabled when an API key is set.
+## How the engine works (100% free, no API key)
+1. **Curated rules** (offline, precise) — standard-spelling corrections in `shuddhi/rules.json` (Hindi/Gujarati/English), with an allowlist so Indian names, places, schemes and acronyms are never flagged.
+2. **LanguageTool** (`shuddhi/langtool.py`) — the free public LanguageTool API checks English grammar, spelling and style. Choose Indian/British/American spelling. No key.
+3. **Official dictionary verification** (`shuddhi/webcheck.py`) — optional cross-check of Hindi words against हिन्दी विक्षनरी (Wiktionary).
+4. **Reference links** — every finding links to an authoritative dictionary (शब्दकोश for Hindi/Gujarati, Cambridge for English).
 
-The tool works without the API key (rules + dictionary only); the key unlocks the deep grammar/context analysis.
+LanguageTool doesn't support Hindi/Gujarati grammar, so those languages rely on the rules + dictionary layers.
 
 ---
 
