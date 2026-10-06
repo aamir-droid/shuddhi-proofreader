@@ -1,0 +1,37 @@
+{
+  "_comment": "Words the English dictionary checker must NEVER flag: Indian names, places, government/domain terms, common acronyms, and accepted UK/Indian-English spellings. Proper nouns (Capitalized) and ALL-CAPS acronyms are skipped automatically in code; this list covers lowercase or commonly-lowercased items.",
+  "indian_places": [
+    "bihar","patna","gaya","bhagalpur","muzaffarpur","nalanda","delhi","mumbai","kolkata",
+    "chennai","bengaluru","bangalore","hyderabad","ahmedabad","surat","vadodara","rajkot",
+    "gujarat","maharashtra","rajasthan","punjab","haryana","kerala","karnataka","odisha",
+    "assam","jharkhand","chhattisgarh","uttarakhand","telangana","gandhinagar","lucknow",
+    "varanasi","prayagraj","kanpur","bhopal","indore","jaipur","ranchi","raipur","amravati"
+  ],
+  "indian_names": [
+    "aamir","rahul","priya","amit","sunita","ramesh","suresh","rajesh","anita","kavita",
+    "pooja","neha","rohit","sanjay","vijay","ajay","deepak","manoj","arjun","krishna",
+    "ganesh","lakshmi","shiva","aditya","ananya","aarav","ishaan","vivek","nitin","aniket"
+  ],
+  "govt_domain": [
+    "beltron","sahyog","janvishwas","jan","vishwas","ipgrs","panchayat","panchayati","aadhaar",
+    "aadhar","shg","dpdp","ncert","gram","sabha","sarpanch","tehsil","zila","parishad",
+    "lokpal","lokayukta","sachivalaya","yojana","sarkar","mukhyamantri","pradhan","mantri",
+    "scheme","helpline","toolkit","dashboard","workflow","chatbot","multilingual","reusable",
+    "onboarding","realtime","e-governance","interoperability","grievance","redressal"
+  ],
+  "indian_english": [
+    "crore","lakh","lakhs","crores","prepone","intimation","needful","upliftment","felicitation",
+    "redressal","beneficiaries","beneficiary","awareness","stakeholder","stakeholders"
+  ],
+  "uk_spellings": [
+    "colour","colours","coloured","flavour","flavours","honour","honours","labour","behaviour",
+    "neighbour","favour","favourite","favourable","organise","organised","organisation","realise",
+    "realised","recognise","recognised","analyse","analysed","catalogue","dialogue","programme",
+    "centre","centres","metre","metres","litre","theatre","fibre","defence","offence","licence",
+    "practise","apologise","prioritise","prioritised","customise","customised","standardise",
+    "standardised","utilise","utilised","summarise","summarised","minimise","maximise","emphasise",
+    "specialise","modernise","digitise","digitised","enrol","enrolment","fulfil","fulfilment",
+    "travelled","travelling","cancelled","cancelling","labelled","modelling","counsellor","learnt",
+    "grey","cheque","enquiry","enquiries","judgement","acknowledgement","ageing"
+  ]
+}
