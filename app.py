@@ -144,8 +144,10 @@ def status_html():
     if AI_ON:
         return ('<div class="sh-status on"><span class="dot"></span>AI deep analysis is ON'
                 ' &nbsp;·&nbsp; model <code>%s</code></div>' % check.DEFAULT_MODEL)
-    return ('<div class="sh-status off"><span class="dot"></span>AI deep analysis is OFF'
-            ' — add <code>ANTHROPIC_API_KEY</code> to enable full grammar &amp; context checks</div>')
+    return ('<div class="sh-status off"><span class="dot"></span>'
+            'For grammar &amp; context analysis, paste your own Anthropic API key below '
+            '— <a href="https://console.anthropic.com/settings/keys" target="_blank" '
+            'rel="noopener" style="color:#9a6700;font-weight:600">get a free key ↗</a></div>')
 
 
 HERO = """
@@ -187,7 +189,8 @@ def stats_html(findings):
 # --------------------------------------------------------------------------- #
 #  Core run                                                                    #
 # --------------------------------------------------------------------------- #
-def run(files, language, variant, category, custom_category, use_ai, use_ocr, use_spell, out_format):
+def run(files, language, variant, category, custom_category, use_ai, use_ocr, use_spell,
+        out_format, user_key=""):
     if not files:
         return None, None, pd.DataFrame(), "", "⚠️ Please upload at least one file to begin."
 
@@ -215,7 +218,7 @@ def run(files, language, variant, category, custom_category, use_ai, use_ocr, us
                 "from the page images instead." % fname)
         log("**%s** → %d text segment(s) scanned" % (fname, len(segs)))
         findings = check.analyze(segs, language=language, category=cat, variant=variant,
-                                 use_ai=use_ai, use_spell=use_spell, log=log)
+                                 use_ai=use_ai, use_spell=use_spell, api_key=user_key, log=log)
         for f in findings:
             f["file"] = fname
         all_findings += findings
@@ -247,10 +250,10 @@ def run(files, language, variant, category, custom_category, use_ai, use_ocr, us
     else:
         head = "No issues found by the active checks."
     note = ""
-    if not AI_ON:
-        note = ("\n\n> ℹ️ **AI deep analysis is off**, so only spelling + curated rules ran. "
-                "For grammar, sentence formation and context-aware suggestions, add an "
-                "`ANTHROPIC_API_KEY` (see the banner at the top).")
+    if not AI_ON and not (user_key or "").strip():
+        note = ("\n\n> ℹ️ **AI deep analysis was off**, so only spelling + curated rules ran. "
+                "For grammar, sentence formation and context-aware suggestions, paste your "
+                "**Anthropic API key** in the field on the left and run again.")
     summary = head + note + "\n\n" + "\n".join("· " + l for l in logs)
     return docx_path, xlsx_path, df, stats_html(all_findings), summary
 
@@ -278,9 +281,16 @@ with gr.Blocks(title="Shuddhi — Proofreader", theme=THEME, css=CSS, head=HEAD,
                                   info="Which English to enforce (e.g. UK: colour, organise)")
             custom_category = gr.Textbox(label="Describe it yourself (optional)",
                                          placeholder="e.g. Class-6 science textbook · political speech · government circular")
+            if not AI_ON:
+                user_key = gr.Textbox(type="password", label="🔑 Anthropic API key — enables AI (optional)",
+                                      placeholder="sk-ant-…",
+                                      info="Bring your own key to unlock grammar + context analysis. "
+                                           "Used only for this request, never stored. Get one at console.anthropic.com.")
+            else:
+                user_key = gr.Textbox(visible=False, value="")
             with gr.Accordion("Advanced options", open=False):
-                use_ai = gr.Checkbox(value=AI_ON, label="AI deep analysis — grammar, sentence formation, context & level",
-                                     interactive=AI_ON)
+                use_ai = gr.Checkbox(value=True, label="AI deep analysis — grammar, sentence formation, context & level",
+                                     interactive=True)
                 use_ocr = gr.Checkbox(value=False, label="OCR for scanned / image PDFs (recommended for presentations)")
                 use_spell = gr.Checkbox(value=False,
                                         label="Strict English dictionary spellcheck (may flag names/places — off by default)")
@@ -304,13 +314,16 @@ with gr.Blocks(title="Shuddhi — Proofreader", theme=THEME, css=CSS, head=HEAD,
             'Files are processed in memory for your request and not stored. '
             '&nbsp;·&nbsp; शुद्धि · Shuddhi</div>')
 
-    def _run(files, language_idx, variant_idx, category, custom_category, use_ai, use_ocr, use_spell, out_format):
+    def _run(files, language_idx, variant_idx, category, custom_category, use_ai, use_ocr,
+             use_spell, out_format, user_key):
         code = LANG_CHOICES[language_idx][1] if isinstance(language_idx, int) else "auto"
         var = VARIANT_CHOICES[variant_idx][1] if isinstance(variant_idx, int) else "indian"
-        return run(files, code, var, category, custom_category, use_ai, use_ocr, use_spell, out_format)
+        return run(files, code, var, category, custom_category, use_ai, use_ocr, use_spell,
+                   out_format, user_key)
 
     btn.click(_run,
-              inputs=[files, language, variant, category, custom_category, use_ai, use_ocr, use_spell, out_format],
+              inputs=[files, language, variant, category, custom_category, use_ai, use_ocr,
+                      use_spell, out_format, user_key],
               outputs=[word_out, excel_out, table, stats, summary])
 
 

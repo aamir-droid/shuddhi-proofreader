@@ -170,14 +170,19 @@ VARIANT_LABEL = {"indian": "Indian English", "uk": "British (UK) English",
                  "us": "American (US) English"}
 
 
-def ai_available() -> bool:
-    if not (os.environ.get("ANTHROPIC_API_KEY") or os.environ.get("ANTHROPIC_AUTH_TOKEN")):
-        return False
+def anthropic_sdk() -> bool:
     try:
         import anthropic  # noqa: F401
         return True
     except Exception:
         return False
+
+
+def ai_available() -> bool:
+    """True when a server-side key is configured (the SDK is always a dependency)."""
+    if not (os.environ.get("ANTHROPIC_API_KEY") or os.environ.get("ANTHROPIC_AUTH_TOKEN")):
+        return False
+    return anthropic_sdk()
 
 
 _SYSTEM = (
@@ -245,9 +250,13 @@ def _parse_json_array(txt: str) -> List[dict]:
 
 
 def ai_findings(segments, language, category, variant="indian",
-                model=None, log=lambda *a: None) -> List[dict]:
+                model=None, api_key=None, log=lambda *a: None) -> List[dict]:
     import anthropic
-    client = anthropic.Anthropic()
+    try:
+        client = anthropic.Anthropic(api_key=api_key) if api_key else anthropic.Anthropic()
+    except Exception as e:
+        log("Could not start the AI client: %s" % e)
+        return []
     model = model or DEFAULT_MODEL
     results = []
     for ci, chunk in enumerate(_chunk(segments)):
@@ -287,7 +296,7 @@ def ai_findings(segments, language, category, variant="indian",
 #  Orchestration                                                               #
 # --------------------------------------------------------------------------- #
 def analyze(segments, language="auto", category="General", variant="indian",
-            use_ai=True, use_spell=False, log=lambda *a: None) -> List[dict]:
+            use_ai=True, use_spell=False, api_key=None, log=lambda *a: None) -> List[dict]:
     findings = []
     for seg in segments:
         lang = language if language in ("hi", "gu", "en") else detect_lang(seg["text"])
@@ -295,12 +304,15 @@ def analyze(segments, language="auto", category="General", variant="indian",
         if use_spell:
             findings += spell_findings(seg, lang)
 
-    if use_ai and ai_available():
+    api_key = (api_key or "").strip() or None
+    can_ai = ai_available() or (api_key is not None and anthropic_sdk())
+    if use_ai and can_ai:
         log("Running AI deep pass (%s)…" % DEFAULT_MODEL)
         ai_lang = LANG_NAME.get(language, "mixed (auto-detect per segment)")
-        findings += ai_findings(segments, ai_lang, category, variant=variant, log=log)
+        findings += ai_findings(segments, ai_lang, category, variant=variant,
+                                api_key=api_key, log=log)
     elif use_ai:
-        log("AI deep pass is OFF (no API key) — add ANTHROPIC_API_KEY for grammar & context analysis.")
+        log("AI deep pass is OFF — paste your Anthropic API key to enable grammar & context analysis.")
 
     return _dedupe_and_sort(findings)
 
