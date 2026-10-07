@@ -102,7 +102,7 @@ def _ocr_page(page, ocr_lang: str) -> str:
     except Exception:
         return ""
     _configure_tesseract(pytesseract)
-    pix = page.get_pixmap(dpi=300)
+    pix = page.get_pixmap(dpi=int(os.environ.get("SHUDDHI_OCR_DPI", "220")))
     img = Image.open(io.BytesIO(pix.tobytes("png")))
     lang = _OCR_LANG.get(ocr_lang, _OCR_LANG["auto"])
     try:

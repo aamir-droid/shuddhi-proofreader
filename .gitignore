@@ -6,3 +6,10 @@ venv/
 shuddhi_*/
 .DS_Store
 .env
+tessdata_user/
+tessdata_best/
+_sample.pdf
+_*.docx
+_*.xlsx
+_*.pdf
+server.log
