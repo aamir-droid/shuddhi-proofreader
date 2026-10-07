@@ -205,14 +205,16 @@ def run(files, language, variant, category, custom_category, use_deep, use_ocr, 
         except Exception as e:
             log("Could not read %s: %s" % (fname, e)); continue
         if not segs:
-            log("⚠️ No readable text in **%s**. It is likely a scanned/image PDF — "
-                "turn on **OCR** in Advanced options and try again." % fname)
+            log("⚠️ Could not read any text from **%s** (image PDF, and OCR returned "
+                "nothing). The server's OCR engine may be starting up — try again shortly." % fname)
             continue
         garbled = sum(1 for s in segs if check.looks_garbled(s["text"]))
         if garbled and garbled >= len(segs) * 0.4:
-            log("⚠️ **%s** has a damaged text layer (broken font encoding from the "
-                "PowerPoint→PDF export). Results will be poor — turn on **OCR** to read it "
-                "from the page images instead." % fname)
+            log("⚠️ **%s** has a damaged text layer and OCR did not run on this server. "
+                "Results will be limited." % fname)
+        ocr_pages = sum(1 for s in segs if "(OCR)" in s["loc"])
+        if ocr_pages:
+            log("🔎 Read %d page(s) via OCR (image/broken-text pages)." % ocr_pages)
         log("**%s** → %d text segment(s) scanned" % (fname, len(segs)))
         findings = check.analyze(segs, language=language, category=cat, variant=variant,
                                  use_deep=use_deep, use_spell=use_spell, use_dict=use_dict, log=log)
@@ -276,7 +278,7 @@ with gr.Blocks(title="Shuddhi — Proofreader", theme=THEME, css=CSS, head=HEAD,
             with gr.Accordion("Advanced options", open=False):
                 use_deep = gr.Checkbox(value=True,
                                        label="Deep grammar check (free · LanguageTool) — English grammar, spelling & style")
-                use_ocr = gr.Checkbox(value=False, label="OCR for scanned / image PDFs (recommended for presentations)")
+                use_ocr = gr.Checkbox(value=False, label="Force OCR on every page (image & broken-text PDFs auto-OCR already)")
                 use_dict = gr.Checkbox(value=False,
                                        label="Verify Hindi words against online dictionary — हिन्दी विक्षनरी (experimental, slower)")
                 use_spell = gr.Checkbox(value=False,
